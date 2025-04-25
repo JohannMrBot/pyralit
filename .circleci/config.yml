@@ -7,23 +7,6 @@ executors:
     working_directory: ~/repo
 
 jobs:
-  install-deps:
-    executor: python-executor
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            pwd
-            python -m venv venv
-            source venv/bin/activate
-            pip install -e . -r requirements.txt
-            ls -ls
-      - persist_to_workspace:
-          root: .
-          paths:
-            - venv
-
   run-tests:
     executor: python-executor
     steps:
@@ -37,14 +20,14 @@ jobs:
       - run:
           name: Run tests
           command: |
+            curl -X POST -H 'Content-type: application/json' \--data '{"text":"Hello, World!"}' $SLACK_WEBHOOK
             pwd
             ls -la
             source venv/bin/activate
             python -m unittest
-
+# https://hooks.slack.com/services/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
 workflows:
   version: 2
   test:
     jobs:
-#      - install-deps
       - run-tests
