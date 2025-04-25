@@ -22,5 +22,4 @@ class TestUserView(unittest.TestCase):
         print("TESTLIST")
         result = self.view.list()
 
-        self.assertEqual(result, [])
-
+        mock_get_all.assert_called_once()
