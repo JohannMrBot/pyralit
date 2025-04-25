@@ -1,0 +1,6 @@
+waitress
+pyramid
+colander
+deform
+pyramid_sqlalchemy
+sqlalchemy

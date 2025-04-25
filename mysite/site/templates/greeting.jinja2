@@ -1,0 +1,19 @@
+{% extends "base.jinja2" %}
+{% block title %}Edit{% endblock %}
+{% block content %}
+
+    <form method="post">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input name="name" type="text" class="form-control" id="name" placeholder="Name" autofocus>
+        </div>
+        <button type="button" id="greet-btn" class="btn btn-primary mt-2">Submit</button>
+    </form>
+
+    <div>
+        <p id="greeting"></p>
+    </div>
+
+    <script src="{{ request.static_url('mysite:static/greeting.js') }}"></script>
+
+{% endblock %}

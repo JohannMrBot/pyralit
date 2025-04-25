@@ -1,0 +1,5 @@
+[console_scripts]
+initialize_db = mysite.scripts.initialize_db:main
+
+[paste.app_factory]
+main = mysite:main

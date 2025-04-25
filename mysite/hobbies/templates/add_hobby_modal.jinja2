@@ -1,0 +1,19 @@
+<div class="modal fade" id="hobby-add-modal" tabindex="-1" role="dialog" aria-labelledby="hobby-add-modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-flex flex-row justify-content-between">
+                <h5 class="modal-title" id="hobby-add-modalLabel">Add hobby</h5>
+                <i class="bi-x close bg-danger text-light rounded p-2 text-md" data-dismiss="modal"
+                   aria-label="Close"></i>
+            </div>
+            <div class="modal-body">
+                {{ add_form | safe }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="submit-hobby-add" data-dismiss="modal" type="button" class="btn btn-primary" form="deform">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

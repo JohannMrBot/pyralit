@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: mysite
+Version: 0.0.0
+Requires-Dist: pyramid
+Requires-Dist: pyramid_jinja2
+Requires-Dist: deform>=2.0a2
+Requires-Dist: pyramid_sqlalchemy
+Requires-Dist: pyramid_tm
+Dynamic: requires-dist

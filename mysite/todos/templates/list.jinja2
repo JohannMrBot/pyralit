@@ -1,0 +1,74 @@
+{% extends "mysite:site/templates/base.jinja2" %}
+{% block title %}ToDos List{% endblock %}
+{% block content %}
+
+    {% if msg %}
+        <div class="alert alert-info">
+            <span class="badge">{{ msg }}</span>
+        </div>
+    {% endif %}
+    <a class="btn btn-primary pull-right" href="{{ request.route_url('todo_add') }}">
+        Add
+    </a>
+
+    <div class="list-group col-md-6 mt-2">
+        {% for todo in todos %}
+            {% if request.has_permission('view', todo) %}
+                <div class="list-group-item d-flex flex-row align-items-center justify-content-between">
+
+                    <div class="d-flex flex-row align-items-center">
+                        <a class="btn btn-default btn-xs"
+                           href={{ request.route_url('todo_view', id=todo.id) }}>
+                        {{ todo.title }}
+                    </a>
+                    {% if request.has_permission('edit', todo) %}
+                        <div class="btn-group pull-right" role="group">
+                            <a class="btn btn-default btn-xs"
+                               href="{{ request.route_url('todo_edit', id=todo.id) }}">
+                                <i class="bi-pencil"></i>
+                                Edit
+                            </a>
+                            <a class="btn btn-default btn-xs"
+                               href="{{ request.route_url('todo_delete', id=todo.id) }}">
+                                <i class="bi-trash"></i>
+                                Delete
+                            </a>
+                        </div>
+                    {% endif %}
+                    </div>
+
+
+
+                    <div>
+                        {% if request.has_permission('view', todo.owner) %}
+                            <a href="{{ request.route_url('user_view', username=todo.owner.username) }}">
+                                {{ todo.owner.username }}
+                            </a>
+                        {% else %}
+                            {{ todo.owner.username }}
+                        {% endif %}
+                    </div>
+
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    {#    <table class="table table-striped">#}
+    {#        {% for todo in todos %}#}
+    {#            <tr>#}
+    {#                <td>#}
+    {#                    <a href={{ request.route_url('todo_view', id=todo.id) }}>#}
+    {#                        {{ todo.title }}#}
+    {#                    </a>#}
+    {#                </td>#}
+    {#                <td>#}
+    {#                    <a href={{ request.route_url('todo_edit', id=todo.id) }}>Edit</a>#}
+    {#                </td>#}
+    {#                <td>#}
+    {#                    <a href={{ request.route_url('todo_delete', id=todo.id) }}>Delete</a>#}
+    {#                </td>#}
+    {#            </tr>#}
+    {#        {% endfor %}#}
+    {#    </table>#}
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends request.hobby_api.base_template %}
+{% block title %}
+    Hobbies
+{% endblock %}
+
+{% block content %}
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#hobby-add-modal">
+        Add
+    </button>
+    {% include "add_hobby_modal.jinja2" %}
+    <h2>Hobbies</h2>
+    <div id="hobby-container" class="container">
+        {% for hobby in hobbies %}
+            {% if request.has_permission('view', hobby) %}
+                <div class="row d-flex flex-row align-content-center">
+                    <div id="{{ "hobby-name-div-" ~ hobby.id }}" class="col-5">
+                        <a id="{{ "hobby-anchor-" ~ hobby.id }}" class="btn btn-default btn-xs"
+                           href={{ request.route_url('hobby_one', id=hobby.id) }}>
+                            {{ hobby.name }}
+                        </a>
+                        <input id="{{ "hobby-input-" ~ hobby.id }}"
+                               value="{{ hobby.name }}"
+                               style="display: none; max-width: max-content;"
+                        >
+                    </div>
+                    {% if request.has_permission('edit', hobby) %}
+{#                        <div class="btn-group pull-right" role="group">#}
+                            <a class="btn btn-default btn-xs col-1"
+                                    {#                               href="{{ request.route_url('hobby_edit', id=hobby.id) }}"#}
+                               href="#"
+                               onclick="editHobby('{{ hobby.id }}')"
+                            >
+                                <i class="bi-pencil"></i>
+                                Edit
+                            </a>
+                            <a class="btn btn-default btn-xs col-1"
+                                    {#                               href="{{ request.route_url('hobby_delete', id=hobby.id) }}"#}
+                               href="#"
+                            >
+                                <i class="bi-trash"></i>
+                                Delete
+                            </a>
+{#                        </div>#}
+                    {% endif %}
+                    <div class="col-1">
+                        {% if request.has_permission('view', hobby.owner) %}
+                            <a href="{{ request.route_url('user_view', username=hobby.owner.username) }}">
+                                {{ hobby.owner.username }}
+                            </a>
+                        {% else %}
+                            {{ hobby.owner.username }}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ request.static_url('mysite:static/hobby.js') }}"></script>
+{% endblock %}
