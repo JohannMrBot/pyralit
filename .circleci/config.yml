@@ -15,10 +15,10 @@ jobs:
           name: Install dependencies
           command: |
             pwd
-            ls -ls
             python -m venv venv
             source venv/bin/activate
             pip install -e . -r requirements.txt
+            ls -ls
       - persist_to_workspace:
           root: .
           paths:
@@ -35,14 +35,14 @@ jobs:
           command: |
             pwd
             ls -la
-            source /workspace/venv/bin/activate
+            python -m venv venv
+            source venv/bin/activate
+            pip install -e . -r requirements.txt
             python -m unittest
 
 workflows:
   version: 2
   test:
     jobs:
-      - install-deps
-      - run-tests:
-          requires:
-            - install-deps
+#      - install-deps
+      - run-tests
