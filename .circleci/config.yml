@@ -80,6 +80,10 @@ jobs:
             }" $SLACK_WEBHOOK
 workflows:
   version: 2
-  test:
+  test-workflow:
     jobs:
-      - run-tests
+      - run-tests:
+          filters:
+            branches:
+              only:
+                - main
