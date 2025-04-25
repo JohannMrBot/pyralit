@@ -14,6 +14,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            pwd
+            ls -ls
             python -m venv venv
             source venv/bin/activate
             pip install -e . -r requirements.txt
@@ -25,6 +27,8 @@ jobs:
       - run:
           name: Run tests
           command: |
+            pwd
+            ls -la
             python -m venv venv
             source venv/bin/activate
             python -m unittest
