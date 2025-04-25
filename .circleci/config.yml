@@ -28,16 +28,17 @@ jobs:
     executor: python-executor
     steps:
       - checkout
-      - attach_workspace:
-          at: /workspace
+      - run:
+          name: Install dependencies
+          command: |
+            python -m venv venv
+            source venv/bin/activate
+            pip install -e . -r requirements.txt
       - run:
           name: Run tests
           command: |
             pwd
             ls -la
-            python -m venv venv
-            source venv/bin/activate
-            pip install -e . -r requirements.txt
             python -m unittest
 
 workflows:
