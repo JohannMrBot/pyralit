@@ -13,7 +13,6 @@ jobs:
       - checkout
       - run:
           name: Notify Slack on Start
-          when: on_start
           command: |
             curl -X POST -H 'Content-type: application/json' \
             --data '{
