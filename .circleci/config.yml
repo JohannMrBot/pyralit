@@ -25,7 +25,6 @@ jobs:
             ls -la
             source venv/bin/activate
             python -m unittest
-# https://hooks.slack.com/services/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
 workflows:
   version: 2
   test:
