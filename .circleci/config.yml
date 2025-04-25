@@ -1,0 +1,38 @@
+version: 2.1
+
+executors:
+  python-executor:
+    docker:
+      - image: cimg/python:3.10  # or your preferred Python version
+    working_directory: ~/repo
+
+jobs:
+  install-deps:
+    executor: python-executor
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            python -m venv venv
+            source venv/bin/activate
+            pip install -e . -r requirements.txt
+
+  run-tests:
+    executor: python-executor
+    steps:
+      - checkout
+      - run:
+          name: Run tests
+          command: |
+            source venv/bin/activate
+            python -m unittest
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - install-deps
+      - run-tests:
+          requires:
+            - install-deps
