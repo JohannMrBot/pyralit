@@ -39,6 +39,7 @@ jobs:
           command: |
             pwd
             ls -la
+            source venv/bin/activate
             python -m unittest
 
 workflows:
