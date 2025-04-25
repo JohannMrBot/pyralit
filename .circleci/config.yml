@@ -7,6 +7,42 @@ executors:
     working_directory: ~/repo
 
 jobs:
+  notify-start:
+    docker:
+      - image: curlimages/curl:latest
+    steps:
+      - run:
+          name: Notify Slack on Start
+          command: |
+            curl -X POST -H 'Content-type: application/json' \
+            --data '{
+              "text": "Starting CircleCI workflow! :chains:",
+            }' \
+            $SLACK_WEBHOOK
+  notify-slack-failure:
+    docker:
+      - image: curlimages/curl:latest
+    steps:
+      - run:
+          name: Notify Slack on Failure
+          command: |
+            curl -X POST -H 'Content-type: application/json' \
+            --data '{
+              "text": "CircleCI workflow has failed! :x:",
+            }' \
+            $SLACK_WEBHOOK
+  notify-slack-success:
+    docker:
+      - image: curlimages/curl:latest
+    steps:
+      - run:
+          name: Notify Slack on Success
+          command: |
+            curl -X POST -H 'Content-type: application/json' \
+            --data '{
+              "text": "CircleCI workflow was successful! :tada:",
+            }' \
+            $SLACK_WEBHOOK
   run-tests:
     executor: python-executor
     steps:
@@ -20,7 +56,9 @@ jobs:
       - run:
           name: Run tests
           command: |
-            curl -X POST -H 'Content-type: application/json' \--data '{"text":"Hello, World!"}' $SLACK_WEBHOOK
+            curl -X POST -H 'Content-type: application/json' \
+            --data '{"text":"Hello, World!"}' \
+            $SLACK_WEBHOOK
             pwd
             ls -la
             source venv/bin/activate
@@ -29,4 +67,12 @@ workflows:
   version: 2
   test:
     jobs:
+      - notify-start
       - run-tests
+      - notify-slack-success:
+          requires:
+            run-tests
+      - notify-slack-failure:
+          requires:
+            run-tests
+          when: on_fail
