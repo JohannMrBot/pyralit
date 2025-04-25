@@ -13,6 +13,7 @@ jobs:
       - checkout
       - run:
           name: Notify Slack on Start
+          when: on_start
           command: |
             curl -X POST -H 'Content-type: application/json' \
             --data '{
@@ -28,11 +29,6 @@ jobs:
       - run:
           name: Run tests
           command: |
-            curl -X POST -H 'Content-type: application/json' \
-            --data '{"text":"Hello, World!"}' \
-            $SLACK_WEBHOOK
-            pwd
-            ls -la
             source venv/bin/activate
             python -m unittest
       - run:
@@ -45,7 +41,7 @@ jobs:
             }' \
             $SLACK_WEBHOOK
       - run:
-          name: Notify Slack on Success
+          name: Notify Slack on Failure
           when: on_fail
           command: |
             curl -X POST -H 'Content-type: application/json' \
