@@ -72,7 +72,8 @@ workflows:
       - notify-slack-success:
           requires:
             - run-tests
+          type: success
       - notify-slack-failure:
           requires:
             - run-tests
-          when: on_fail
+          type: failure
