@@ -19,18 +19,23 @@ jobs:
             python -m venv venv
             source venv/bin/activate
             pip install -e . -r requirements.txt
+      - persist_to_workspace:
+          root: .
+          paths:
+            - venv
 
   run-tests:
     executor: python-executor
     steps:
       - checkout
+      - attach_workspace:
+          at: /workspace
       - run:
           name: Run tests
           command: |
             pwd
             ls -la
-            python -m venv venv
-            source venv/bin/activate
+            source /workspace/venv/bin/activate
             python -m unittest
 
 workflows:
