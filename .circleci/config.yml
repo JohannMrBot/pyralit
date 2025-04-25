@@ -11,14 +11,14 @@ jobs:
     executor: python-executor
     steps:
       - checkout
-      - run:
-          name: Notify Slack on Start
-          command: |
-            curl -X POST -H 'Content-type: application/json' \
-            --data '{
-              "text": "Starting CircleCI workflow! :chains:",
-            }' \
-            $SLACK_WEBHOOK
+#      - run:
+#          name: Notify Slack on Start
+#          command: |
+#            curl -X POST -H 'Content-type: application/json' \
+#            --data '{
+#              "text": "Starting CircleCI workflow! :chains:",
+#            }' \
+#            $SLACK_WEBHOOK
       - run:
           name: Install dependencies
           command: |
@@ -34,6 +34,7 @@ jobs:
           name: Notify Slack on Success
           when: on_success
           command: |
+            git log
             curl -X POST -H 'Content-type: application/json' \
             --data '{
               "text": "CircleCI workflow was successful! :tada:",
