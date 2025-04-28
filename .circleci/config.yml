@@ -107,16 +107,6 @@ commands:
                       "short": true
                     },
                     {
-                      "title": "Project Repository",
-                      "value": "'"$CIRCLE_PROJECT_REPONAME"'",
-                      "short": true
-                    },
-                    {
-                      "title": "Project Username",
-                      "value": "'"$CIRCLE_PROJECT_USERNAME"'",
-                      "short": true
-                    },
-                    {
                       "title": "GitHub Message",
                       "value": "'"$COMMIT_MESSAGE"'"
                     },
@@ -127,6 +117,16 @@ commands:
                     {
                       "title": "Build URL",
                       "value": "'"$CIRCLE_BUILD_URL"'"
+                    },
+                    {
+                      "title": "Project Repository",
+                      "value": "'"$CIRCLE_PROJECT_REPONAME"'",
+                      "short": true
+                    },
+                    {
+                      "title": "Project Username",
+                      "value": "'"$CIRCLE_PROJECT_USERNAME"'",
+                      "short": true
                     }
                   ]
                 }
@@ -157,39 +157,17 @@ jobs:
           command: |
             source venv/bin/activate
             python -m unittest
+
       - notify_slack_long:
           title: "Build Succeeded!"
           when: on_success
           color: "good"
 
-      - run:
-          name: Notify Slack on Failure
+      - notify_slack_long:
+          title: "Build failed!"
           when: on_fail
-          command: |
-            COMMIT_MESSAGE=$(git log -1 --pretty=%B $CIRCLE_SHA1)
-            COMMIT_AUTHOR=$(git log -1 --pretty=%an $CIRCLE_SHA1)
-            COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=%ae $CIRCLE_SHA1)
-            COMMIT_DATE=$(git log -1 --pretty=%cd $CIRCLE_SHA1)
-            SHORT_COMMIT_HASH=$(git rev-parse --short $CIRCLE_SHA1)
-            COMMIT_SUBJECT=$(git log -1 --pretty=%s $CIRCLE_SHA1)
-            
-            curl -X POST -H 'Content-type: application/json' --data "{
-              \"channel\": \"#deployments\",
-              \"username\": \"CircleCI Bot\",
-              \"icon_emoji\": \"rotating_light\",
-              \"text\": \"Build Failed! \n
-            GitHub Message: $COMMIT_MESSAGE \n
-            Author: $COMMIT_AUTHOR \n
-            Author Email: $COMMIT_AUTHOR_EMAIL \n
-            Commit Date: $COMMIT_DATE \n
-            Short Commit Hash: $SHORT_COMMIT_HASH \n
-            Commit Subject: $COMMIT_SUBJECT \n
-            Branch: $CIRCLE_BRANCH \n
-            Build Number: $CIRCLE_BUILD_NUM \n
-            Build URL: $CIRCLE_BUILD_URL \n
-            Project Repository: $CIRCLE_PROJECT_REPONAME \n
-            Project Username: $CIRCLE_PROJECT_USERNAME \"
-            }" $SLACK_WEBHOOK
+          color: "danger"
+
 workflows:
   version: 2
   test-workflow:
