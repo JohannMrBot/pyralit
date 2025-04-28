@@ -12,6 +12,8 @@ commands:
       - run:
           name: Send Slack Notification
           command: |
+            COMMIT_SUBJECT=$(git log -1 --pretty=%s $CIRCLE_SHA1)
+            
             curl -X POST -H 'Content-type: application/json' --data '{
               "blocks": [
                 {
@@ -32,8 +34,8 @@ commands:
                       "short": true
                     },
                     {
-                      "title": "Commit",
-                      "value": "'"${CIRCLE_SHA1:0:7}"'",
+                      "title": "Commit Subject",
+                      "value": "'"$COMMIT_SUBJECT"'",
                       "short": true
                     }
                   ]
@@ -143,9 +145,9 @@ jobs:
   run-tests:
     executor: python-executor
     steps:
+      - checkout
       - notify_slack_short:
           title: "Build starting..."
-      - checkout
       - run:
           name: Install dependencies
           command: |
