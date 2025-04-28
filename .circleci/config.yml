@@ -49,7 +49,7 @@ commands:
         default: on_success
       color:
         type: string
-        default: "#36a64f"
+        default: "#c0c0c0"
     steps:
       - run:
           name: Send Slack Notification
@@ -78,18 +78,47 @@ commands:
                   "fields": [
                     {
                       "title": "Branch",
-                      "value": "'"$CIRCLE_BRANCH"'",
-                      "short": true
+                      "value": "'"$CIRCLE_BRANCH"'"
                     },
                     {
                       "title": "Commit",
-                      "value": "'"${CIRCLE_SHA1:0:7}"'",
-                      "short": true
+                      "value": "'"${CIRCLE_SHA1:0:7}"'"
                     },
                     {
                       "title": "GitHub Message",
-                      "value": "'"$COMMIT_MESSAGE"'",
-                      "short": true
+                      "value": "'"$COMMIT_MESSAGE"'"
+                    },
+                    {
+                      "title": "Author",
+                      "value": "'"$COMMIT_AUTHOR"'"
+                    },
+                    {
+                      "title": "Author Email",
+                      "value": "'"$COMMIT_AUTHOR_EMAIL"'"
+                    },
+                    {
+                      "title": "Commit Date",
+                      "value": "'"$COMMIT_DATE"'"
+                    },
+                    {
+                      "title": "Commit Subject",
+                      "value": "'"$COMMIT_SUBJECT"'"
+                    },
+                    {
+                      "title": "Build Number",
+                      "value": "'"$CIRCLE_BUILD_NUM"'"
+                    },
+                    {
+                      "title": "Build URL",
+                      "value": "'"$CIRCLE_BUILD_URL"'"
+                    },
+                    {
+                      "title": "Project Repository",
+                      "value": "'"$CIRCLE_PROJECT_REPONAME"'"
+                    },
+                    {
+                      "title": "Project Username",
+                      "value": "'"$CIRCLE_PROJECT_USERNAME"'"
                     }
                   ]
                 }
@@ -123,6 +152,7 @@ jobs:
       - notify_slack_long:
           title: "Build Succeeded!"
           when: on_success
+          color: "good"
 
       - run:
           name: Notify Slack on Failure
