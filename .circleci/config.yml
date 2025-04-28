@@ -29,7 +29,7 @@ commands:
                     {
                       "title": "Branch",
                       "value": "'"$CIRCLE_BRANCH"'",
-                      "short": true
+                      "short": false
                     },
                     {
                       "title": "Commit",
