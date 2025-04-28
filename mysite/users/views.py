@@ -26,7 +26,7 @@ class UserView:
     @view_config(route_name='user', renderer='templates/list.jinja2')
     def list(self):
         msg = self.request.params.get('msg')
-        return {"users": [], "msg": msg}
+        return {"users": User.get_all(), "msg": msg}
 
     @view_config(route_name='user_view', renderer='templates/view.jinja2')
     def view(self):

@@ -30,13 +30,11 @@ commands:
                   "fields": [
                     {
                       "title": "Branch",
-                      "value": "'"$CIRCLE_BRANCH"'",
-                      "short": true
+                      "value": "'"$CIRCLE_BRANCH"'"
                     },
                     {
                       "title": "Commit Subject",
-                      "value": "'"$COMMIT_SUBJECT"'",
-                      "short": true
+                      "value": "'"$COMMIT_SUBJECT"'"
                     }
                   ]
                 }
