@@ -44,12 +44,16 @@ commands:
     parameters:
       title:
         type: string
+      when:
+        type: string
+        default: on_success
       color:
         type: string
         default: "#36a64f"
     steps:
       - run:
           name: Send Slack Notification
+          when: << parameters.when >>
           command: |
             COMMIT_MESSAGE=$(git log -1 --pretty=%B $CIRCLE_SHA1)
             COMMIT_AUTHOR=$(git log -1 --pretty=%an $CIRCLE_SHA1)
