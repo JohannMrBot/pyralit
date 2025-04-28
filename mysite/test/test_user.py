@@ -19,7 +19,12 @@ class TestUserView(unittest.TestCase):
     @patch("mysite.users.views.User.get_all")
     def test_list(self, mock_get_all):
         mock_get_all.return_value = []
-        print("TESTLIST")
+        print("TEST LIST")
         result = self.view.list()
 
         mock_get_all.assert_called_once()
+
+
+    def test_post(self):
+        with self.assertRaises(AttributeError):
+            print("TEST POST")
