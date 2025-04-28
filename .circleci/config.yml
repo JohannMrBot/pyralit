@@ -15,11 +15,9 @@ commands:
             curl -X POST -H 'Content-type: application/json' --data '{
               "blocks": [
                 {
-                  "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "<< parameters.title >>",
-                    "emoji": true
+                    "text": "<< parameters.title >>"
                   }
                 }
               ],
