@@ -117,7 +117,7 @@ jobs:
             source venv/bin/activate
             python -m unittest
       - notify_slack_long:
-          title: Build Succeeded!
+          title: "Build Succeeded!"
           when: on_success
 
       - run:
