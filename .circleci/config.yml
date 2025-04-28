@@ -15,6 +15,7 @@ commands:
             curl -X POST -H 'Content-type: application/json' --data '{
               "blocks": [
                 {
+                  "type": "section",
                   "text": {
                     "type": "plain_text",
                     "text": "<< parameters.title >>"
