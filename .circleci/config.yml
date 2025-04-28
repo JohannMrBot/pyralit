@@ -3,7 +3,7 @@ version: 2.1
 commands:
   notify_slack:
     parameters:
-      message:
+      title:
         type: string
       color:
         type: string
@@ -13,13 +13,30 @@ commands:
           name: Send Slack Notification
           command: |
             curl -X POST -H 'Content-type: application/json' --data '{
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "<< parameters.title >>",
+                    "emoji": true
+                  }
+                }
+              ],
               "attachments": [
                 {
                   "color": "<< parameters.color >>",
-                  "text": "<< parameters.message >>",
                   "fields": [
-                    { "title": "Branch", "value": "'"$CIRCLE_BRANCH"'", "short": true },
-                    { "title": "Commit", "value": "'"${CIRCLE_SHA1:0:7}"'", "short": true }
+                    {
+                      "title": "Branch",
+                      "value": "'"$CIRCLE_BRANCH"'",
+                      "short": true
+                    },
+                    {
+                      "title": "Commit",
+                      "value": "'"${CIRCLE_SHA1:0:7}"'",
+                      "short": true
+                    }
                   ]
                 }
               ]
@@ -36,7 +53,7 @@ jobs:
     executor: python-executor
     steps:
       - notify_slack:
-          message: "🚀 Build starting..."
+          title: "Build starting..."
       - checkout
       - run:
           name: Install dependencies
