@@ -12,13 +12,6 @@ commands:
       - run:
           name: Send Slack Notification
           command: |
-            COMMIT_MESSAGE=$(git log -1 --pretty=%B $CIRCLE_SHA1)
-            COMMIT_AUTHOR=$(git log -1 --pretty=%an $CIRCLE_SHA1)
-            COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=%ae $CIRCLE_SHA1)
-            COMMIT_DATE=$(git log -1 --pretty=%cd $CIRCLE_SHA1)
-            SHORT_COMMIT_HASH=$(git rev-parse --short $CIRCLE_SHA1)
-            COMMIT_SUBJECT=$(git log -1 --pretty=%s $CIRCLE_SHA1)
-            
             curl -X POST -H 'Content-type: application/json' --data '{
               "attachments": [
                 {
